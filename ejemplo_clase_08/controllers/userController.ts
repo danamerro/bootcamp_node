@@ -4,7 +4,7 @@ import User from "../models/user";
 class UserController {
   async createUser(req: Request, res: Response) {
     try {
-      const newUser = User.create(req.body);
+      const newUser = await User.create(req.body);
       return res.status(201).json(newUser);
     } catch (error) {
       console.log(error);
@@ -28,6 +28,23 @@ class UserController {
   }
   async updateUser(req: Request, res: Response) {
     //// tu logicas para editar un usuario
+    const {first_name, last_name,username,email,password,isAdmin} = req.body
+    const id = req.params.id
+    try{
+      const user = await User.findByIdAndUpdate(
+        id,
+        {$set: {first_name, last_name,username,email,password,isAdmin} },
+        {new: true}// devuelve el usuario actualizado
+      );
+
+      if(!user){
+        return res.status(404).json({error: "User not found"})
+      }
+
+      return res.status(200).json(user);
+    }catch (error){
+      return res.status(400).json({ error: "Error updating" });
+    }
   }
   async getUser(req: Request, res: Response) {}
 }

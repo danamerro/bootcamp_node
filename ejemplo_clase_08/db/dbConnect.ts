@@ -6,6 +6,7 @@ config();
 export default async function dbConnect() {
   if (mongoose.connection.readyState >= 1) return;
   try {
+    console.log(process.env.DB_URI)
     const dbURI = process.env.DB_URI!;
 
     await mongoose.connect(dbURI);
