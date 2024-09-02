@@ -1,6 +1,6 @@
 import express from "express";
-import usersRouter from "./routes/user";
-import adminRouter from "./routes/admin";
+
+import {adminRouter,usersRouter, authRouter} from "./routes"
 
 import dbConnect from "./db/dbConnect";
 import { config } from "dotenv";
@@ -16,6 +16,7 @@ app.use(express.json());
 
 app.use("/user", usersRouter);
 app.use("/admin", adminRouter);
+app.use("/api/auth", authRouter);
 
 dbConnect();
 
